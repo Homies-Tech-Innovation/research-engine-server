@@ -1,1 +1,1 @@
-bun run lint-staged
+biome check --write --staged --no-errors-on-unmatched

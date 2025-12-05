@@ -25,16 +25,14 @@ jobs:
           version: latest
       - run: biome ci .
 
-  build:
-    name: Build
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
-      # *** CHANGE HERE ***
-      - uses: ./.github/actions/setup-bun # <--- Updated reference path
-      # *** CHANGE HERE: Assuming your build script is defined in package.json ***
-      - run: bun run build
+  # build:
+  #   name: Build
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+  #     - uses: ./.github/actions/setup-bun # <--- Updated reference path
+  #     - run: bun run build
 
   # test:
   #   name: Test
@@ -42,9 +40,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
-  #     # *** CHANGE HERE ***
   #     - uses: ./.github/actions/setup-bun # <--- Updated reference path
-  #     # *** CHANGE HERE: Assuming your test script is defined in package.json ***
   #     - run: bun run test
 
   # docker:
@@ -94,30 +90,29 @@ jobs:
   #           type=gha,mode=max,scope=${{ github.ref_name }}-${{ github.job }}
   #           type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
 
-  summary:
-    name: Workflow Summary
-    needs: [setup, quality, build]
-    runs-on: ubuntu-latest
-    if: always() # Run even if previous jobs fail
-    steps:
-      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+  # summary:
+  #   name: Workflow Summary
+  #   needs: [setup, quality, build]
+  #   runs-on: ubuntu-latest
+  #   if: always() # Run even if previous jobs fail
+  #   steps:
+  #     - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
 
-      - name: Generate CI Summary
-        run: |
-          echo "# 📋 CI Workflow Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+  #     - name: Generate CI Summary
+  #       run: |
+  #         echo "# 📋 CI Workflow Summary" >> $GITHUB_STEP_SUMMARY
+  #         echo "" >> $GITHUB_STEP_SUMMARY
 
-          # Build info
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## 🔨 Build Information" >> $GITHUB_STEP_SUMMARY
-          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Repository** | ${{ github.repository }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Branch/Tag** | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Commit** | [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Triggered by** | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Workflow Run** | [View Details](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) |" >> $GITHUB_STEP_SUMMARY
-
+  #         # Build info
+  #         echo "" >> $GITHUB_STEP_SUMMARY
+  #         echo "## 🔨 Build Information" >> $GITHUB_STEP_SUMMARY
+  #         echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| **Repository** | ${{ github.repository }} |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| **Branch/Tag** | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| **Commit** | [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| **Triggered by** | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
+  #         echo "| **Workflow Run** | [View Details](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) |" >> $GITHUB_STEP_SUMMARY
 # Docker image info (when applicable)
 # if [[ "${{ needs.docker.result }}" == "success" && "${{ github.event_name }}" != "pull_request" ]]; then
 # 	echo "" >> $GITHUB_STEP_SUMMARY

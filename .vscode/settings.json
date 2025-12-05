@@ -9,6 +9,6 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[github-actions-workflow][markdown][xml][yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }
