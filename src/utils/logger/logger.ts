@@ -2,7 +2,7 @@ import { config } from '@config';
 import pino from 'pino';
 
 // Configure Pino logger
-const pinoLogger = pino({
+export const pinoLogger = pino({
   transport:
     config.env.NODE_ENV === 'development'
       ? {

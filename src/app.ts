@@ -2,12 +2,14 @@ import { config } from '@config';
 import { globalErrorHandler, responseEnhancer } from '@middleware';
 import express, { type Request, type Response } from 'express';
 import helmet from 'helmet';
+import { httpLogger } from '@/utils/logger/httpLogger';
 
 const app = express();
 
 // Middlewares
 app.use(helmet());
 app.use(express.json({ limit: config.env.MAX_PAYLOAD_SIZE }));
+app.use(httpLogger);
 app.use(responseEnhancer);
 
 // Test endpoints

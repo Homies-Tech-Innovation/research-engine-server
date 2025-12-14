@@ -4,7 +4,7 @@ import type { NextFunction, Request, Response } from 'express';
 
 export const globalErrorHandler = (
   err: unknown,
-  _req: Request,
+  req: Request,
   res: Response,
   _next: NextFunction
 ) => {
@@ -14,6 +14,7 @@ export const globalErrorHandler = (
   let code = 'INTERNAL_SERVER_ERROR';
   let errData: unknown;
   let stack: string | undefined;
+  const requestId = req.id;
 
   // Hydrate with AppError Data
   if (err instanceof error.core.AppError) {
@@ -40,8 +41,12 @@ export const globalErrorHandler = (
     error: {
       code,
       message,
-      errData,
+      details: errData,
       stack,
+    },
+    meta: {
+      requestId: requestId,
+      timestamp: new Date().toISOString(),
     },
   });
 };
