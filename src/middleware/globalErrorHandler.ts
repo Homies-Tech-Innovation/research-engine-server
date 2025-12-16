@@ -46,7 +46,7 @@ export const globalErrorHandler = (
     },
     meta: {
       requestId: requestId,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString('en-GB', { hour12: false }),
     },
   });
 };
