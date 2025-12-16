@@ -1,5 +1,5 @@
 import { config } from '@config';
-import { globalErrorHandler, responseEnhancer } from '@middleware';
+import { globalErrorHandler, rateLimiter, responseEnhancer } from '@middleware';
 import { httpLogger } from '@utils/logger/httpLogger';
 import express, { type Request, type Response } from 'express';
 import helmet from 'helmet';
@@ -11,6 +11,7 @@ const app = express();
 app.use(helmet());
 app.use(responseTime());
 app.use(httpLogger);
+app.use(rateLimiter);
 app.use(express.json({ limit: config.env.MAX_PAYLOAD_SIZE }));
 app.use(responseEnhancer);
 

@@ -7,5 +7,10 @@ declare module 'express-serve-static-core' {
   }
   interface Request {
     id: string;
+    user: User;
   }
+}
+
+interface User {
+  id: number;
 }
