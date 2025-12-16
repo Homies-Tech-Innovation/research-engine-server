@@ -4,7 +4,7 @@ export { connections };
 
 export async function initRedis() {
   const redisClients = getRedisClients();
-  await Promise.all(redisClients.map((client) => client.ping()));
+  await Promise.all(redisClients.map((client) => client.connect()));
 }
 
 export async function shutdownRedis() {

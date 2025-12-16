@@ -20,11 +20,19 @@ export const logger = {
   info: (arg: unknown, msg?: string) => pinoLogger.info(arg, msg),
   error: (arg: unknown, msg?: string) => {
     if (config.env.NODE_ENV === 'production') {
-      pinoLogger.error(arg, msg);
-      return;
+      return pinoLogger.error(arg, msg);
     }
-    if (msg) console.error(`[${new Date().toISOString().slice(11, 23)}] ERROR: ${msg}`);
-    console.error(arg);
+    if (typeof arg === 'string') {
+      msg = arg;
+    }
+    const timestamp = new Date().toISOString().slice(11, 23);
+
+    if (msg) {
+      console.error(`[${timestamp}] ERROR: ${msg}`);
+    }
+    if (typeof arg !== 'string') {
+      console.error(arg);
+    }
   },
   debug: (arg: unknown, msg?: string) => pinoLogger.debug(arg, msg),
   warn: (arg: unknown, msg?: string) => pinoLogger.warn(arg, msg),

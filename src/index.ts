@@ -11,8 +11,9 @@ let isShuttingDown = false;
 // Start the app
 const init = async () => {
   // Make all redis connections
+  logger.info('Initializing redis connections...');
   await initRedis();
-  logger.info('Redis initialized');
+  logger.info('✔ Redis connections initialized');
 
   server = app.listen(config.env.PORT, () => {
     logger.info(`\x1b[92m✔ server running at\x1b[0m http://localhost:${config.env.PORT}`);
@@ -30,7 +31,10 @@ process.on('unhandledRejection', unexpectedErrorHandler);
 
 // Handle signals
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+process.on('SIGINT', () => {
+  process.stdout.write('\r');
+  gracefulShutdown('SIGINT');
+});
 
 // Helper functions
 async function unexpectedErrorHandler(error: unknown) {
@@ -54,12 +58,14 @@ async function gracefulShutdown(signal: string, exitCode: number = 0) {
     if (server) {
       if (server.closeAllConnections) server.closeAllConnections();
 
-      await new Promise<void>((resolve, reject) => {
-        server.close((err) => {
-          if (err) return reject(err);
-          resolve();
+      if (server.listening) {
+        await new Promise<void>((resolve, reject) => {
+          server.close((err) => {
+            if (err) return reject(err);
+            resolve();
+          });
         });
-      });
+      }
     }
     logger.info('HTTP server closed.');
     // Shutdown Redis

@@ -47,22 +47,22 @@ function createClient(config: RedisConfig, options: Partial<RedisOptions> = {}) 
 
 function attachRedisEvents(name: string, client: Redis) {
   client.on('connect', () => {
-    logger.info(`[redis:${name}] connecting`);
+    logger.info(`[${name}] connecting...`);
   });
 
   client.on('ready', () => {
-    logger.info(`[redis:${name}] ready`);
+    logger.info(`[${name}] ready`);
   });
 
   client.on('error', (err) => {
-    logger.error(err, `[redis:${name}] error`);
+    logger.error(err, `[${name}] error`);
   });
 
   client.on('reconnecting', () => {
-    logger.warn(`[redis:${name}] reconnecting`);
+    logger.warn(`[${name}] reconnecting`);
   });
 
   client.on('end', () => {
-    logger.warn(`[redis:${name}] connection closed`);
+    logger.warn(`[${name}] connection closed`);
   });
 }

@@ -1,3 +1,4 @@
+import { logger } from '@utils';
 import * as z from 'zod';
 
 const RedisConfigSchema = z
@@ -24,15 +25,14 @@ export type RedisConfig = z.infer<typeof RedisConfigSchema>;
 export function getNewConfig(envVar: string) {
   const connectionString = process.env[envVar];
   if (!connectionString) {
-    console.error(`${envVar} is required but was not provided`);
+    logger.error(`${envVar} is required but was not provided`);
     process.exit(1);
   }
   const rawConfig = parseRedisUrl(connectionString);
-
   const config = RedisConfigSchema.safeParse(rawConfig);
 
   if (!config.success) {
-    console.error(z.prettifyError(config.error));
+    logger.error(z.prettifyError(config.error));
     process.exit(1);
   }
   return config.data;
@@ -53,7 +53,10 @@ function parseRedisUrl(connectionString: string) {
       // Detect TLS if protocol is rediss:
       tls: parsed.protocol === 'rediss:',
     };
-  } catch (_err) {
-    return undefined;
+  } catch (error) {
+    logger.error(
+      `Couldn't parse redis connection url for "${connectionString}": ${error instanceof Error ? error.message : 'no message.'}`
+    );
+    process.exit(1);
   }
 }
