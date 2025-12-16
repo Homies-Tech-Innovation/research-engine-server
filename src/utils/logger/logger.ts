@@ -25,7 +25,13 @@ export const logger = {
     if (typeof arg === 'string') {
       msg = arg;
     }
-    const timestamp = new Date().toISOString().slice(11, 23);
+    const timestamp = new Date().toLocaleTimeString('en-GB', {
+      hour12: false, // Use 24-hour format
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      fractionalSecondDigits: 3, // Adds the milliseconds (.123)
+    });
 
     if (msg) {
       console.error(`[${timestamp}] ERROR: ${msg}`);
