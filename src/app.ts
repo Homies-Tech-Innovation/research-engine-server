@@ -1,9 +1,9 @@
 import { config } from '@config';
 import { globalErrorHandler, responseEnhancer } from '@middleware';
+import { httpLogger } from '@utils/logger/httpLogger';
 import express, { type Request, type Response } from 'express';
 import helmet from 'helmet';
 import responseTime from 'response-time';
-import { httpLogger } from '@/utils/logger/httpLogger';
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(responseEnhancer);
 
 // Test endpoints
 app.get('/', (_req: Request, res: Response) => {
-  res.success({ 'worked?': true });
+  res.success({ worked: true });
 });
 
 app.get('/err', (_req: Request, _res: Response) => {
