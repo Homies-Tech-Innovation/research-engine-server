@@ -1,3 +1,4 @@
+import http from 'node:http';
 import { config } from '@config';
 import { globalErrorHandler, rateLimiter, responseEnhancer } from '@middleware';
 import { httpLogger } from '@utils/logger/httpLogger';
@@ -38,5 +39,8 @@ app.use(config.constants.API_PREFIX, routes);
 
 // Global Error handler
 app.use(globalErrorHandler);
+
+// Create httpServer for Socket IO
+export const server = http.createServer(app);
 
 export default app;

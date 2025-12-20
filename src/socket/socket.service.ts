@@ -8,7 +8,6 @@ import customMsgPackParser from 'socket.io-msgpack-parser';
 
 let io: Server;
 
-// TODO: fix redis error
 export const initIO = (httpServer: httpServer) => {
   io = new Server(httpServer, {
     cors: { origin: config.env.CORS_ORIGIN },
@@ -17,6 +16,9 @@ export const initIO = (httpServer: httpServer) => {
   });
   io.on('connection', (socket) => {
     logger.info(`Socket.IO Connected: ${socket.id}`);
+
+    // Use middlewares
+    //
 
     // Register modular handlers
     //

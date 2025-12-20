@@ -1,14 +1,12 @@
-import { type Response, Router } from 'express';
+import { Router } from 'express';
 
 // Route imports
-//
+import healthRouter from '@/module/health/index.route';
 
 const router = Router();
 
 // Health endpoint
-router.get('/health', (_req, res: Response) => {
-  res.success({ status: 'OK', uptime: process.uptime() });
-});
+router.use('/health', healthRouter);
 
 // Routes
 //

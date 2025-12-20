@@ -1,6 +1,6 @@
 import { redisFromEnv } from './utils/redisClient';
 
-// TODO: re-write with better implementation and duplication support
+// TODO: check duplication support
 export const connections = {
   // Rate limiter connection
   redisRateLimiter: redisFromEnv('REDIS_RATE_LIMITER'),

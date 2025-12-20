@@ -1,17 +1,21 @@
 import { config } from '@config';
 import { initRedis, shutdownRedis } from '@redis';
 import { logger } from '@utils';
-import { server } from '@/server';
+import { server } from '@/app';
+import { initIO } from './socket/socket.service';
 
 // Helper variables
 let isShuttingDown = false;
 
 // Start the app
 const init = async () => {
-  // Make all redis connections
+  // Make all Redis connections
   logger.info('Initializing redis connections...');
   await initRedis();
   logger.info('✔ Redis connections initialized');
+
+  // Initialize Socket IO
+  initIO(server);
 
   server.listen(config.env.PORT, () => {
     logger.info(`\x1b[92m✔ server running at\x1b[0m http://localhost:${config.env.PORT}`);
