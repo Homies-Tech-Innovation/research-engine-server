@@ -1,0 +1,24 @@
+services:
+  redis:
+    image: redis:8.4.0
+    container_name: research-engine-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass ""
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - research-engine-network
+      
+volumes:
+  redis_data:
+
+networks:
+  research-engine-network:
+    driver: bridge
