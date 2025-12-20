@@ -1,6 +1,7 @@
 import http from 'node:http';
 import { config } from '@config';
 import { globalErrorHandler, rateLimiter, responseEnhancer } from '@middleware';
+import healthRouter from '@module/health/index.route';
 import { httpLogger } from '@utils/logger/httpLogger';
 import compression from 'compression';
 import cors from 'cors';
@@ -21,6 +22,9 @@ app.use(
     credentials: true,
   })
 );
+// Mount health route
+app.use('/health', healthRouter);
+
 app.use(compression());
 app.use(httpLogger);
 app.use(rateLimiter);

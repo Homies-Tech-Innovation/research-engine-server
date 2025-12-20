@@ -37,7 +37,8 @@
       "@/*": ["./src/*"],
       "@middleware/*": ["./src/middleware/*"],
       "@config/*": ["./src/config/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@module/*": ["./src/module/*"]
     }
   },
   "include": ["src/**/*", "types/**/*"]
